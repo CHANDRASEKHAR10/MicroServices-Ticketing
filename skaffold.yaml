@@ -24,11 +24,3 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    - image: chandru10/orders
-      context: orders
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: .

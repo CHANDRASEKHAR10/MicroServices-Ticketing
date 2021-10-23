@@ -21,7 +21,7 @@ async (req: Request,res: Response,next: NextFunction)=>{
     const existingUser = await User.findOne({email});
 
     if(!existingUser){
-        next(new BadRequestError());
+        return next(new BadRequestError());
     }
 
     const passwordsMatch = await Password.compare(
@@ -29,7 +29,7 @@ async (req: Request,res: Response,next: NextFunction)=>{
         password);
 
     if(!passwordsMatch){
-        next(new BadRequestError());
+        return next(new BadRequestError());
     }
 
     const userJWT = jwt.sign({

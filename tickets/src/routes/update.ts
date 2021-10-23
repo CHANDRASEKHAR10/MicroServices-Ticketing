@@ -1,4 +1,4 @@
-import { currentUser, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@chantickets/common';
+import { BadRequestError, currentUser, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@chantickets/common';
 import express, { Request, Response, NextFunction} from 'express';
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
@@ -19,11 +19,15 @@ async (req: Request,res: Response,next: NextFunction) =>{
     const ticket = await Ticket.findById(req.params.id);
 
     if(!ticket){
-        next(new NotFoundError());
+        return next(new NotFoundError());
+    }
+
+    if(ticket!.orderId){
+        return next(new BadRequestError());
     }
 
     if(ticket!.userId !== req.currentUser!.id){
-        next(new NotAuthorizedError());
+        return next(new NotAuthorizedError());
     }
 
     ticket!.set({
@@ -37,7 +41,8 @@ async (req: Request,res: Response,next: NextFunction) =>{
         id: ticket!.id,
         title: ticket!.title,
         price: ticket!.price,
-        userId: ticket!.userId
+        userId: ticket!.userId,
+        version: ticket!.version
     });
 
     res.send(ticket);

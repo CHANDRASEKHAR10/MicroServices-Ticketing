@@ -1,6 +1,6 @@
-import { SubjectsEnum, PublisherAbstract, TickerCreatedEvent } from "@chantickets/common";
+import { SubjectsEnum, PublisherAbstract, TicketCreatedEvent } from "@chantickets/common";
 
-export class TicketCreatedPublisher extends PublisherAbstract<TickerCreatedEvent> {
+export class TicketCreatedPublisher extends PublisherAbstract<TicketCreatedEvent> {
     readonly subject = SubjectsEnum.TicketCreated;
     
 }
